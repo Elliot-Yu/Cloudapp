@@ -1,0 +1,46 @@
+#application: comp3207-travel-planner-189701
+#version: 1
+
+runtime: python27
+api_version: 1
+threadsafe: true
+
+builtins:
+- remote_api: on
+- appstats: on
+- deferred: on
+
+handlers:
+- url: /templates
+  static_dir: templates/
+- url: .*
+  script: mysite.wsgi.application
+- url: /_ah/queue/deferred
+  script: google.appengine.ext.deferred.application
+  login: admin
+- url: /_ah/stats.*
+  script: google.appengine.ext.appstats.ui.app
+- url: /_ah/remote_api(/.*)?
+  script: google.appengine.ext.remote_api.handler.application
+
+
+libraries:
+- name: MySQLdb
+  version: "1.2.5"
+- name: django
+  version: "1.11"
+
+env_variables:
+  #DJANGO_SETTINGS_MODULE: 'mysite.settings'
+    CLOUDSQL_CONNECTION_NAME: comp3207-191316:europe-west2:travel
+    CLOUDSQL_USER: root
+    CLOUDSQL_PASSWORD: 123456
+
+skip_files:
+- ^(.*/)?#.*#$
+- ^(.*/)?.*~$
+- ^(.*/)?.*\.py[co]$
+- ^(.*/)?.*/RCS/.*$
+- ^(.*/)?\..*$
+#- ^env/.*$
+- ^(.*/)?.*\.git.*$

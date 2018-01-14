@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}My Groups{% endblock %}
+
+{% block content %}
+    <div id="whole" style="height: 100%; width: 100%; margin-top: 4%;">
+        <h1 style="margin-left: 2%;">Groups you are in:</h1>
+        <div class="whole-container">
+            <!-- cards again-->
+            {% for m_group in m_groups %}
+            <div class="cards cards-borderless" style="float: left; height: 200px; width: 20%; margin-left: 2%; margin-top:15px;">
+                <a class="card" href="/books/myGroupDetail_member/{{m_group.id}}">
+                    <img id="city img" src="/templates/images/demo/portfolio-2.jpg" alt="">
+                    <div class="card-heading"><strong id="group name">GroupName:{{m_group.g_name}}</strong></div>
+                    <div class="card-content text-muted">
+                        <p id="destination">Destination:{{m_group.g_city}}</p>
+                        <p id="organiser">Organiser:{{m_group.g_organiser}}</p>
+                        <p id="gathering-place">GatheringPlace:{{m_group.g_place}}</p>
+                        <p id="status">Status:{{m_group.m_status}}</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+
+        </div>
+        <h1 style="margin-left: 2%;">Groups you organised:</h1>
+        <div class="whole-container">
+            <!-- cards again-->
+            {% for o_group in o_groups %}
+            <div class="cards cards-borderless" style="float: left; height: 200px; width: 20%; margin-left: 2%; margin-top:15px;">
+                <a class="card" href="/books/myGroupDetail_organiser/{{o_group.id}}">
+                    <img id="city img1" src="/templates/images/demo/portfolio-2.jpg" alt="">
+                    <div class="card-heading"><strong id="group name1">GroupName:{{o_group.g_name}}</strong></div>
+                    <div class="card-content text-muted">
+                        <p id="destination1">Destination:{{o_group.g_city}}</p>
+                        <p id="expected number of member">Expected Number of Member:{{o_group.g_member}}</p>
+                        <p id="gathering-place1">GatheringPlace:{{o_group.g_place}}</p>
+                        <p id="status1">Status:{{o_group.g_status}}</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+{% endblock %}

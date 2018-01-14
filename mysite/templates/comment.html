@@ -1,0 +1,41 @@
+    <!--comments space-->
+   <div class="container" id="section-right" style="height: 100%; width: 78%; float: left;">
+        <div id="all-comments">
+            <h2>Now you can check and leave messages to other members in this group</h2>
+            <div class="comments" style="margin-top: 25px">
+                <!--check all the comments-->
+                <!--all comments should be take out from the database to show here
+                    using loop method
+                -->
+                {% for comment in comments %}
+                <section class="comments-list">
+                    <div class="comment">
+                        <div class="content">
+                            <div><p id="who comment" style="color: #337ab7;">{{ comment.user }}</p></div>
+                            <div id="content of comments" class="text">{{comment.detail}}</div>
+                        </div>
+                    </div>
+                </section>
+                {% endfor %}
+
+            </div>
+        </div>
+        <!--write your own comments-->
+        <div id="write-comment" style="position: fixed; bottom: 20%; width: inherit;">
+            <div class="reply-form" id="commentReplyForm1">
+                <form class="form" action="/comment/add/" method="post">
+                    <div class="form-group" align="center">
+
+                        <input type="text" name="user" id="user" autocomplete="off" maxlength="20" >
+                        <textarea name="detail" id="comments content"></textarea>
+
+                        <div class="col-md-2"  style="margin-top: 2%; width:100% ;">
+                            <input type="hidden" name="group" value="{{group.id}}" >
+                            <input type="submit" value="Submit" align="center" class="btn btn-block btn-primary" style="width:100px;">
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,145 @@
+{% extends "templates/base.html" %}
+{% block head %}
+<script>
+    function quitFunction() {
+        window.location.href="index.html";
+    }
+    function deleteFunction() {
+        window.location.href="myGroups.html";
+    }
+    function completeFunction() {
+        window.location.href="myGroups.html";
+    }
+</script>
+{% endblock %}
+{% block title %}My Group{% endblock %}
+
+{% block content %}
+<div id="whole" class="whole-container" style="width: 100%; height: 100%;">
+    <!--information on the left of this page-->
+    <div class="container" id="section-left" style="height: 100%; width: 20%; float: left; background-color: rgba(214,214,214,0.24);">
+        <div id="information-text" style="height: 100%; width: 100%; margin-top: 4%;">
+            <h2 id="group name"> <a href="myGroupDetail_organiser.html/{{o_group.id}}"> Group Name:{{o_group.g_name}}</a></h2>
+        <div>
+            <p>
+                <button id="btn1" type="button" class="btn" data-toggle="modal" data-target="#collapseExample">View the Members</button>
+            </p>
+
+            <div class="modal fade" id="collapseExample">
+                <div class="modal-dialog">
+                    <div class="modal-content" style="text-align: start">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">close</span></button>
+                            <h4 class="modal-title">All Members</h4>
+                        </div>
+                        {% for member in members %}
+                        <div class="modal-body">
+                            <p id="content of all members" style="font-size: larger; color: #2aabd2;">
+                                {{ member.username }}
+                            </p>
+                        </div>
+                        {% endfor %}
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <h3 id="destination">Destination:{{m_group.g_country}}{{m_group.g_city}}</h3>
+        <h3 id="gathering place">Gathering Place:{{o_group.g_place}}</h3>
+        <!--If the group leader is me, different button can be seen, delete and complete can be done-->
+        <div>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#alertIfDelete">Delete</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#alertIfComplete">Complete the journey</button>
+        </div>
+        <!--if the organiser clicks delete, then the warning modal will jump out-->
+        <div class="modal fade" id="alertIfDelete">
+            <div class="modal-dialog">
+                <div class="modal-content" style="text-align: start">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">close</span></button>
+                        <h4 class="modal-title">Warning</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Do you want to delete this group? If you do this group will be delete permanently.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <form class="form" action="/books/group/delete_group/" method="post">
+                        <button id="yes-to-delete" type="button" class="btn btn-primary" onclick="deleteFunction()">Yes</button>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+        <!--if the organiser clicks 'complete the journey', the status of this journey will be completed.-->
+        <div class="modal fade" id="alertIfComplete">
+            <div class="modal-dialog">
+                <div class="modal-content" style="text-align: start">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">close</span></button>
+                        <h4 class="modal-title">Warning</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Do you want to complete this journey? If you do the status of this group will be completed.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                           <form class="form" action="/books/group/complete_group/" method="post">
+                        <button id="yes-to-complete" type="button" class="btn btn-primary" onclick="completeFunction()">Yes</button>
+                           </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--comments space-->
+       <!--comments space-->
+   <div class="container" id="section-right" style="height: 100%; width: 78%; float: left; margin-top: 4%;">
+        <div id="all-comments">
+            <h2>Now you can check and leave messages to other members in this group</h2>
+            <div class="comments" style="margin-top: 25px">
+                <!--check all the comments-->
+                <!--all comments should be take out from the database to show here
+                    using loop method
+                -->
+                {% for comment in comments %}
+                <section class="comments-list">
+                    <div class="comment">
+                        <div class="content">
+                            <div><p id="who comment" style="color: #337ab7;">{{ comment.user }}</p></div>
+                            <div id="content of comments" class="text">{{comment.detail}}</div>
+                        </div>
+                    </div>
+                </section>
+                {% endfor %}
+
+            </div>
+        </div>
+        <!--write your own comments-->
+        <div id="write-comment" style="position: fixed; bottom: 20%; width: inherit;">
+            <div class="reply-form" id="commentReplyForm1">
+                <form class="form" action="/books/comment/addo/" method="post">
+                    <div class="form-group" align="center">
+
+                        <input type="hidden" name="group" value="{{group.id}}" >
+                        <textarea name="detail" id="comments content"></textarea>
+
+                        <div class="col-md-2"  style="margin-top: 2%; width:100% ;">
+                            <input type="submit" value="Submit" align="center" class="btn btn-block btn-primary" style="width:100px;">
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

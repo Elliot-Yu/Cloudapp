@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block head %} ?????
+<script>
+    function joinFunction() {
+        window.location.href="myGroups.html";
+    }
+</script>
+{% endblock head %}
+
+{% block title %}Group Detail{% endblock %}
+
+{% block content %}
+    <div id="whole" style="height: 100%; width: 100%; margin-top: 4%;">
+    <h1 style="margin-left: 20px">DETAILS</h1>
+<div class="whole-container"  style="margin-top:10%;text-align: center">
+
+    <h2><a href="/books/group_detail/{{group.id}}">Group Name:{{group.g_name}}</a></h2>
+    <div style="width: inherit">
+        <h3>Expected Number of Member: {{group.g_member}} </h3>
+        <h3>Current Number of Member:
+            <p>
+                <button id="btn1" type="button" class="btn" data-toggle="modal" data-target="#collapseExample">View the Members</button>
+            </p>
+        </h3>
+
+        <div class="modal fade" id="collapseExample">
+            <div class="modal-dialog">
+                <div class="modal-content" style="text-align: start">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">close</span></button>
+                        <h4 class="modal-title">All Members</h4>
+                    </div>
+                    {% for member in members %}
+                    <div class="modal-body">
+                        <p style="font-size: larger; color: #2aabd2;">
+                            {{ member.username }}
+                        </p>
+                    </div>
+                    {% endfor %}
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <h3>Destination:{{group.g_country}}{{group.g_city}}</h3>
+        <h3>Organiser:{{group.g_organiser}}</h3>
+        <h3>Gathering Place:{{group.g_place}}</h3>
+
+        <!--  dialog active button -->
+        <a type="button" id="join-group" class="btn btn-info"  data-toggle="modal" data-target="#myModal">JOIN IN</a>
+
+        <!--  dialog HTML -->
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content" style="text-align: start">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">close</span></button>
+                        <h4 class="modal-title">Important</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Do you want to join this group?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <form class="form" action="/books/group/addme/" method="post">
+                        <button id="yes-to-join" type="button" class="btn btn-primary" onclick="joinFunction()">Yes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div>
+
+{% endblock content %}
+
